@@ -6,13 +6,7 @@ import { JobStatus } from "../constants/jobStatus";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
-// This is the URL of the backend server.
-// It will be set to the current protocol and hostname, with port 8000 for localhost.
-const BACKEND_URL =
-    typeof window !== "undefined"
-        ? `${window.location.protocol}//${window.location.hostname}${window.location.hostname === "localhost" ? ":8000" : ""}`
-        : "http://127.0.0.1:8000";
-
+const BACKEND_URL = "http://127.0.0.1:8000"; // Replace with your backend URL or do something smarter to determine it dynamically
 console.log("BACKEND_URL:", BACKEND_URL);
 
 export default function Home() {
@@ -32,22 +26,20 @@ export default function Home() {
         };
     }, []);
 
-    
-    const [backendOnline, setBackendOnline] = useState(false); 
-    const [file, setFile] = useState<File | null>(null);
-    const [filename, setFilename] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [jobs, setJobs] = useState<any[]>([]);
-    const [uploadingJobId, setUploadingJobId] = useState<string | null>(null);
-    const [userId, setUserId] = useState<string | null>(null);
-    const [filterByUser, setFilterByUser] = useState(false);
-    const [downloading, setDownloading] = useState<string | null>(null);
-    const [progress, setProgress] = useState<number>(0);
-    const [openJobList, setOpenJobList] = useState(false);
-    const [errorPopup, setErrorPopup] = useState<{ visible: boolean; message: string | null }>({
+    const [backendOnline, setBackendOnline] = useState(false); /* Track if the backend is online */
+    const [file2Upload, setFile2Upload] = useState<File | null>(null); /* Track the selected file */
+    const [searchTerm, setSearchTerm] = useState(""); /* Track the search term for filtering jobs */
+    const [jobs, setJobs] = useState<any[]>([]); /* Track the list of jobs */
+    const [uploadingJobId, setUploadingJobId] = useState<string | null>(null); /* Track the job ID of the currently uploading job */
+    const [userId, setUserId] = useState<string | null>(""); /* Track the user ID, can be set dynamically or fetched from auth */
+    const [filterByUser, setFilterByUser] = useState(false); /* Track if the user wants to filter jobs by their own user ID */
+    const [downloading, setDownloading] = useState<string | null>(null); /* Track the job ID of the currently downloading job */
+    const [progress, setProgress] = useState<number>(0); /* Track the download progress of the currently downloading job */
+    const [openJobList, setOpenJobList] = useState(false); /* Track if the job list is open or closed */
+    const [errorPopup, setErrorPopup] = useState<{ visible: boolean; message: string | null }>({ 
         visible: false,
         message: null,
-    });
+    }); /* Track the error popup state and message */
 
     useEffect(() => {
         const timeoutPromise = new Promise<never>((_, reject) =>
@@ -101,27 +93,14 @@ export default function Home() {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         /* Handle file selection */
         if (event.target.files && event.target.files.length > 0) {
-            setFile(event.target.files[0]);
-            setFilename(""); // Clear the filename input when a file is selected
+            setFile2Upload(event.target.files[0]);
         }
     };
 
-    const handleFilenameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        /* Handle filename input */
-        setFilename(event.target.value);
-        if (event.target.value) {
-            setFile(null); // Clear the file input when a filename is entered
-
-            const fileInput = document.getElementById("file-input") as HTMLInputElement;
-            if (fileInput) {
-                fileInput.value = ""; // Clear the file input field
-            }
-        }
-    };
 
     const startFileUpload = async () => {
         console.log("Starting file upload...");
-        if (!file) {
+        if (!file2Upload) {
             alert("Please select a file to upload.");
             return;
         }
@@ -131,7 +110,7 @@ export default function Home() {
 
         const tempJob = {
             job_id: tempId,
-            filename: file.name,
+            filename: file2Upload.name,
             status: JobStatus.DataTransfer,
             progress: 0,
             upload_progress: 0,
@@ -161,7 +140,7 @@ export default function Home() {
             const xhr = new XMLHttpRequest();
             xhr.open(
                 "POST",
-                `${BACKEND_URL}/start_job_upload/?filename=${encodeURIComponent(file.name)}`,
+                `${BACKEND_URL}/start_job_upload/?filename=${encodeURIComponent(file2Upload.name)}`,
                 true
             );
 
@@ -211,7 +190,7 @@ export default function Home() {
                 setUploadingJobId(null);
             };
 
-            xhr.send(file);
+            xhr.send(file2Upload);
         } catch (error) {
             console.error("File upload failed", error);
             alert("File upload failed");
@@ -220,51 +199,12 @@ export default function Home() {
         }
     };
 
-    const startMdmJob = async () => {
-        /* Start MDM job with the given filename */
-        if (!filename || filename === "") return;
-
-        console.log("Jobs:", jobs);
-
-        try {
-            // Try to get the access token from Azure App Service (EasyAuth)
-            let token: string | null = null;
-
-            try {
-                const tokenRes = await fetch("/.auth/me");
-                const tokenData = await tokenRes.json();
-                token = tokenData[0]?.access_token || null;
-            } catch (err) {
-                console.warn("No auth token available – running in local dev mode?");
-            }
-
-            // Prepare headers, include Authorization and user_id if available
-            const headers: Record<string, string> = {
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                ...(userId ? { "X-User-ID": userId } : {}),
-            };
-
-            // Call backend with or without token and user_id (backend handles fallback)
-            await fetch(
-                `${BACKEND_URL}/start_job_mdm/?mdm_filename=${encodeURIComponent(filename)}`,
-                {
-                    method: "POST",
-                    headers,
-                }
-            );
-        } catch (error) {
-            console.error("MDM job start failed", error);
-            alert("MDM job failed to start");
-        }
-    };
-
     const triggerNewJob = async () => {
-        if (file) {
+        console.log("Triggering new job...");
+        if (file2Upload) {
             await startFileUpload();
-        } else if (filename.trim() !== "") {
-            await startMdmJob();
         } else {
-            alert("Please provide either a file or an MDM filename.");
+            alert("Please provide either a file.");
             return;
         }
 
@@ -362,16 +302,16 @@ export default function Home() {
         });
 
 
-    if (!backendOnline) {
-        return (
-            <div className="container">
-                <h2>Backend is offline</h2>
-                <p>
-                    The backend is apparently not reachable at this moment. Please try again later.
-                </p>
-            </div>
-        );
-    }
+    // if (!backendOnline) {
+    //     return (
+    //         <div className="container">
+    //             <h2>Backend is offline</h2>
+    //             <p>
+    //                 The backend is apparently not reachable at this moment. Please try again later.
+    //             </p>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="container">
@@ -398,22 +338,32 @@ export default function Home() {
                     </div>
                 </div>
             )}
+            {!backendOnline && (
+                <div className="text-center mt-8 text-xl font-bold">
+                    <h2>Backend is offline</h2>
+                    <p>
+                        The backend is apparently not reachable at this moment. Please try again later.
+                    </p>
+                </div>
+            )}
 
             <div className="input-wrapper">
                 <div className="upload-box">
-                    <h2>Upload HDF5 file or MDM filename</h2>
+                    <h2>Upload file</h2>
                     <input id="file-input" type="file" onChange={handleFileChange} className="input-field" />
-                    <p>Or enter MDM filename:</p>
-                    <input
-                        id="filename-input"
-                        type="text"
-                        value={filename}
-                        onChange={handleFilenameChange}
-                        className="input-field"
-                        placeholder="e.g. file name or mdm sha"
-                    />
                     <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-                        <button onClick={triggerNewJob} className="button">
+                        <button 
+                            onClick={backendOnline ? triggerNewJob : undefined}
+                            className={`
+                                px-4 py-2 rounded-md font-bold
+                                transition-all duration-300 ease-in-out
+                                ${backendOnline
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer'
+                                    : 'bg-gray-200 text-gray-400 border border-gray-300 cursor-not-allowed opacity-60 shadow-none'
+                                }
+                            `}
+                            disabled={!backendOnline}                        
+                        >
                             Trigger new Job
                         </button>
                     </div>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import Link from "next/link";
 
 export default function Header() {
     const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -9,7 +8,7 @@ export default function Header() {
                 <p className="text-gray-600">TB<br />Embrace yourself.</p>
             </div>
             <div className="text-center flex-grow">
-                <p className="text-gray-600 font-bold text-xl">TaskBride</p>
+                <p className="text-gray-600 font-bold text-xl">TaskBridge</p>
             </div>
             <nav className="flex items-center gap-6">
                 {/* Navigation Buttons */}
