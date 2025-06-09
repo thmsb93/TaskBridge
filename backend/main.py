@@ -51,10 +51,9 @@ app.add_middleware(
 
 @app.post("/start_job_upload/")
 async def start_job_upload(request: Request, filename: str = Query(...), job_id: str = Query(None)):
-    _ = request.headers.get("Authorization")
     user_id = request.headers.get("X-User-ID")
 
-    job = JOBS.add_job(filename=filename, description="Uploading started...", user_id=user_id)
+    job = JOBS.add_job(filename=filename, description="Uploading started...", user_id=user_id if user_id else "")
     file_path = Path(UPLOAD_DIR_NAME) / job.filename
 
     total_size = request.headers.get("content-length")

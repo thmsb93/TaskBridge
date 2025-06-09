@@ -31,7 +31,7 @@ export default function Home() {
     const [searchTerm, setSearchTerm] = useState(""); /* Track the search term for filtering jobs */
     const [jobs, setJobs] = useState<any[]>([]); /* Track the list of jobs */
     const [uploadingJobId, setUploadingJobId] = useState<string | null>(null); /* Track the job ID of the currently uploading job */
-    const [userId, setUserId] = useState<string | null>(""); /* Track the user ID, can be set dynamically or fetched from auth */
+    const [userId, setUserId] = useState(""); /* Track the user ID, can be set dynamically or fetched from auth */
     const [filterByUser, setFilterByUser] = useState(false); /* Track if the user wants to filter jobs by their own user ID */
     const [downloading, setDownloading] = useState<string | null>(null); /* Track the job ID of the currently downloading job */
     const [progress, setProgress] = useState<number>(0); /* Track the download progress of the currently downloading job */
@@ -120,20 +120,10 @@ export default function Home() {
         setJobs((prevJobs) => [...prevJobs, tempJob]);
 
         try {
-            // Try to get the access token from Azure App Service (EasyAuth)
-            let token: string | null = null;
-
-            try {
-                const tokenRes = await fetch("/.auth/me");
-                const tokenData = await tokenRes.json();
-                token = tokenData[0]?.access_token || null;
-            } catch (err) {
-                console.warn("No auth token available – running in local dev mode?");
-            }
-
-            // Prepare headers, include Authorization and user_id if available
+            // This would be the place to handle some user identification logic
+            // For example, you could fetch the user ID from a global state or context
+            // Prepare headers
             const headers: Record<string, string> = {
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 ...(userId ? { "X-User-ID": userId } : {}),
             };
 
