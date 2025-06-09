@@ -13,7 +13,7 @@ If you need to quickly validate an idea or build a prototype that involves file 
 
 TaskBridge consists of two main components:
 
-* **Frontend (Next.js):** An intuitive user interface that allows users to upload files or provide file references. It also visualizes a dynamic table with all ongoing and completed jobs, including live updates on their progress and status.
+* **Frontend (Next.js):** An intuitive user interface that allows users to upload files. It also visualizes a dynamic table with all ongoing and completed jobs, including live updates on their progress and status.
 * **Backend (FastAPI / Python):** A robust and fast API that handles file processing. It's designed to trigger jobs and provide their status to the frontend.
 
 ## 🚧 Important Note on Quality
@@ -33,15 +33,14 @@ To get the project running locally, follow these steps:
 ### Prerequisites
 
 * Node.js (LTS recommended)
-* Python 3.x
+* >= Python 3.10
 * npm or yarn (for Frontend)
-* pip (for Backend)
 
 ### Backend Setup
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/YOUR-USERNAME/taskbridge.git](https://github.com/YOUR-USERNAME/taskbridge.git)
+    git clone https://github.com/thmsb93/TaskBridge
     cd taskbridge/backend
     ```
 2.  Create and activate a virtual environment:
@@ -50,13 +49,9 @@ To get the project running locally, follow these steps:
     source venv/bin/activate  # macOS/Linux
     # or `venv\Scripts\activate` on Windows
     ```
-3.  Install dependencies:
+3.  Start the FastAPI server:
     ```bash
-    pip install -r requirements.txt
-    ```
-4.  Start the FastAPI server:
-    ```bash
-    uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
     ```
     The backend should now be accessible at `http://localhost:8000`.
 
