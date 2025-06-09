@@ -292,17 +292,6 @@ export default function Home() {
         });
 
 
-    // if (!backendOnline) {
-    //     return (
-    //         <div className="container">
-    //             <h2>Backend is offline</h2>
-    //             <p>
-    //                 The backend is apparently not reachable at this moment. Please try again later.
-    //             </p>
-    //         </div>
-    //     );
-    // }
-
     return (
         <div className="container">
             {/* Error Popup */}
