@@ -1,0 +1,34 @@
+{
+    "name": "task_bridge",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "date-fns": "^4.1.0",
+        "framer-motion": "^12.15.0",
+        "lucide-react": "^0.508.0",
+        "next": "14.1",
+        "react": "^18.2.0",
+        "react-copy-to-clipboard": "^5.1.0",
+        "react-dom": "^18.2.0",
+        "react-syntax-highlighter": "^15.6.1"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "^3",
+        "@tailwindcss/postcss": "^4",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "autoprefixer": "^10.4.21",
+        "eslint": "^9",
+        "eslint-config-next": "15.2.3",
+        "postcss": "^8.5.4",
+        "tailwindcss": "^3.4.17",
+        "typescript": "^5"
+    }
+}

@@ -1,0 +1,347 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.page-wrapper {
+    display: flex;
+    gap: 2rem;
+}
+
+.left-panel,
+.right-panel {
+    width: 50%;
+    height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 12px;
+}
+
+.right-panel {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.job_list_panel {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow-y: auto;
+    padding: 1rem;
+}
+.left-lower-panel {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.job-header {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #f7f9fc;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.job-header .input-field {
+    flex: 1;
+    margin: 0;
+}
+
+.job-list-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    max-height: 100%;
+}
+
+.upload-box {
+    width: 100%;
+    background: rgba(253, 251, 251, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.job-frame {
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cooler_chevron {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #0070f3;
+}
+
+.button {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #0070f3, #005bb5);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button.danger {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+}
+
+.job-box {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+}
+
+.status {
+    font-weight: bold;
+    color: #0070f3;
+}
+
+.progress-bar,
+.upload-progress-bar {
+    background: #e0e0e0;
+    border-radius: 12px;
+    height: 14px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.progress,
+.upload-progress {
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+}
+
+.progress {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+
+.upload-progress {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+}
+
+.running-job-status-label {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: #555;
+}
+
+
+/* Finished Jobs Table */
+.table-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.job-table {
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.job-table th {
+    background-color: #f7f9fc;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+
+}
+
+.job-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.job-table tr:last-child td {
+    border-bottom: none;
+}
+
+.job-table tr:hover td {
+    background-color: #f0f0f0;
+}
+
+.job-table th {
+    background-color: #f7f9fc;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.job-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 1px;
+}
+
+.job-table td:hover {
+    overflow: visible;
+    white-space: normal;
+    position: relative;
+    z-index: 10;
+    background-color: #ffffff;
+}
+
+.spinner {
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background: conic-gradient(#4caf50 0%, rgba(0, 0, 0, 0.1) 0%);
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.error-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.error-popup {
+    background: white;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.error-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+.error-popup-content {
+    padding: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: monospace;
+    background: #f9f9f9;
+}
+
+.error-popup-footer {
+    padding: 1rem;
+    text-align: right;
+    background: #f5f5f5;
+    border-top: 1px solid #ddd;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.copy-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-button:hover {
+    background: #0056b3;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.pulsing-text {
+    animation: pulse 1.5s infinite;
+}
